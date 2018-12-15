@@ -1,1 +1,1 @@
-self.importScripts('dist/untied.sw.js');
+self.importScripts('dist/untangled.sw.js');

@@ -22,7 +22,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="#00646e">
   <meta name="apple-mobile-web-app-title" content="Fog Chat">
-  <script src="dist/untied.client.js"></script>
+  <script src="dist/untangled.client.js"></script>
   <link rel="apple-touch-icon" type="image/x-icon" href="data:image/x-icon;,">
 </head>
 
@@ -31,12 +31,14 @@
 <script>
 
   var DEFAULT_CONFIG = {
-      compact:true,
-      plugins: [
-          ["transform-react-jsx", {pragma:'h'}]
-      ],
-      presets:['stage-0'],
-      sourceMaps:false
+    compact:true,
+    plugins: [
+      ["transform-react-jsx", {pragma:'h'}]
+    ],
+    presets:[
+      ['stage-2', {"decoratorsLegacy":true}]
+    ],
+    sourceMaps:false
   }
 
   const s = `
@@ -50,6 +52,17 @@
 
     render(h(App), document.body)
   `
+
+  const f = `
+
+    class Comp extends Component {
+        render() {
+            return <h1>blah blah world!</h1>;
+        }
+    }
+
+    render(h(Comp), document.body)
+  `
   
   /*
   
@@ -60,23 +73,31 @@
 
   */
 
-  UntiedClient.register(`sw.js`, { scope: '/' })
+  UntangledClient.register(`sw.js`, { scope: '/' })
     .then((f) => {
-      if(!navigator.serviceWorker.controller){
-        window.location = window.location.origin
-      } else {
-        navigator.serviceWorker.onmessage = function(e){
-          UntiedClient.import(e.data)
-        }
-        navigator.serviceWorker.controller.postMessage({
-          code: s,
-          config: DEFAULT_CONFIG
-        });
-      }
+      return UntangledClient.transform({
+        code:s,
+        config:DEFAULT_CONFIG
+      })
+    })
+    .then((code)=>{
+      console.log("COD EHERE",code)
+      UntangledClient.import(code)
     })
     .catch((e) => {
       console.error(e)
     });
+
+    setTimeout(()=>{
+      UntangledClient.transform({
+        code:f,
+        config:DEFAULT_CONFIG
+      })
+      .then((code)=>{
+        console.log(code)
+        UntangledClient.import(code)
+      })
+    },3000)
 
   
 

@@ -6,13 +6,13 @@ gulp.task('make-sw', () =>
         'node_modules/@babel/standalone/babel.min.js',
         './lib/core.js',
     ])
-    .pipe(concat('untied.sw.js'))
+    .pipe(concat('untangled.sw.js'))
     .pipe(gulp.dest('./dist/'))
 );
 
 gulp.task('make-client', () =>
     gulp.src(['./lib/client.js'])
-    .pipe(concat('untied.client.js'))
+    .pipe(concat('untangled.client.js'))
     .pipe(gulp.dest('./dist/'))
 );
 
