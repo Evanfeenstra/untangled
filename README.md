@@ -12,11 +12,17 @@ UntangledClient.register(path_to_service_worker, service_worker_options)
 ```
 ```
 UntangledClient.transform({
-	code: 'code that you want to transform',
-	config: {plugins:[
-		["transform-react-jsx", {pragma:'h'}]
-	]}
+	code: 'const JSXComponent = () => <div>Transform Me!</div>',
+	config: {
+		compact: false,
+	    plugins: [
+	      ["transform-react-jsx", {pragma:'h'}]
+	    ]
+	}
 })
+```
+```
+UntangledClient.import(code)
 ```
 
 Inspired by this awesome project: https://github.com/edoardocavazza/unchained
