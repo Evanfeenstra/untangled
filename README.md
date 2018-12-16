@@ -14,10 +14,10 @@ UntangledClient.register(path_to_service_worker, service_worker_options)
 UntangledClient.transform({
 	code: 'const JSXComponent = () => <div>Transform Me!</div>',
 	config: {
-		compact: false,
 	    plugins: [
 	      ["transform-react-jsx", {pragma:'h'}]
-	    ]
+	    ],
+	    compact: false,
 	}
 })
 ```
