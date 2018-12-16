@@ -5,6 +5,8 @@ Untangled is a utility to transpile modern Javascript in a browser service worke
 
 ![Demo Screenshot](https://raw.githubusercontent.com/Evanfeenstra/untangled/master/demo/demo-screenshot.png)
 
+To try out the demo, start a web server in the root directory, such as "python -m SimpleHTTPServer"
+
 API
 ===
 ```

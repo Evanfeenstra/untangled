@@ -1,5 +1,5 @@
 {
-  "name": "untangled-js",
+  "name": "untangled",
   "version": "0.0.1",
   "description": "Service worker JS transpilation.",
   "author": "Evan Feenstra <evan@evan.cool>",
