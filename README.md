@@ -25,7 +25,9 @@ To minify HTML:
 ```
 const html = await UntangledClient.minify(
 	`<body> 
-		<div>this will be minifified</div> 
+		<div>
+			this html will be minified
+		</div> 
 	</body>`
 )
 ```
