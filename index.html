@@ -82,7 +82,10 @@ class App extends Component {
 
   document.getElementById('go').addEventListener('click', async function(){
 
-    const js = await Untangled.transform(cmSource.getDoc().getValue())
+    const js = await Untangled.transform({
+      compact:false,
+      code:cmSource.getDoc().getValue()
+    })
     cmTarget.getDoc().setValue(js);
 
     const mini = await Untangled.minify(cmSource.getDoc().getValue())
