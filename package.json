@@ -1,6 +1,6 @@
 {
   "name": "untangled",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Service worker JS transpilation.",
   "author": "Evan Feenstra <evan@evan.cool>",
   "devDependencies": {
