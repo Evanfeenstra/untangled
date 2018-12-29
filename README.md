@@ -21,5 +21,12 @@ const code = await UntangledClient.transform({
 ```
 UntangledClient.import(code)
 ```
+To minify HTML:
+```
+const html = await UntangledClient.minify({
+	code: '<body> <div> this will be minifified </div> </body>',
+	compact: false,
+})
+```
 
 Inspired by this awesome project: https://github.com/edoardocavazza/unchained
