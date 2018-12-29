@@ -23,7 +23,7 @@
   </div>
 
   <div class="button-wrap">
-    <button id="go">
+    <button id="go" disabled>
       <svg>
         <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z" />
       </svg>
@@ -33,12 +33,20 @@
   <div class="wrap">
     <label for="target">Transpiled Code</label>
     <textarea id="target"></textarea>
+    <br /><br />
+    <label for="mini">Minified Code</label>
+    <textarea id="mini"></textarea>
   </div>
 <script>
 
 window.onload = function(){
 
-  Untangled.register(`dist/untangled.worker.js`, { scope: '/' })
+  document.getElementById('go').disabled = true
+  Untangled.register(`dist/untangled.worker.js`)
+  .then(r=>{
+    console.log('registered')
+    document.getElementById('go').disabled = false
+  })
 
   const example = `
 class App extends Component {
@@ -64,34 +72,27 @@ class App extends Component {
       lineNumbers: true,
       readOnly: true
   }); 
+  var cmMini = CodeMirror.fromTextArea(document.getElementById('mini'), {
+      mode: "javascript",
+      theme: "material",
+      lineNumbers: true,
+      readOnly: true
+  }); 
+  cmMini.setSize('100%', 58);
 
-  document.getElementById('go').addEventListener('click', function(){
-    // Untangled.transform({
-    //   code: cmSource.getDoc().getValue(),
-    //   //config: babelConfig
-    // })
-    // .then((result) => {
-    //   cmTarget.getDoc().setValue(result);
-    // })
+  document.getElementById('go').addEventListener('click', async function(){
 
-    // Untangled.minify(cmSource.getDoc().getValue())
-    // .then((res) => {
-    //   console.log(res)
-    // })
+    const js = await Untangled.transform(cmSource.getDoc().getValue())
+    cmTarget.getDoc().setValue(js);
 
-    Untangled.transform({
-      code: cmSource.getDoc().getValue(),
-    })
-    .then((result) => {
-      cmTarget.getDoc().setValue(result);
-    })
-    .catch(e=>{
-      console.log(e)
-    })
+    const mini = await Untangled.minify(cmSource.getDoc().getValue())
+    console.log(mini)
+    cmMini.getDoc().setValue(mini);
+
   })
   /*
 
-  to refresh the service worker:
+  to refresh a service worker:
   
   navigator.serviceWorker.getRegistrations().then(function(registrations) {
    for(let registration of registrations) {
@@ -115,6 +116,11 @@ class App extends Component {
     width:100%;
     height:100%;
     overflow: hidden;
+  }
+  button[disabled] {
+    opacity: 0.5;
+    cursor: default;
+    background: black;
   }
   body {
     width:100%;
@@ -146,6 +152,10 @@ class App extends Component {
     display: block;
     font-size:18px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
+  }
+  #mini {
+    height:100px;
+    max-height: 100px;
   }
   .button-wrap{
     width:58px;
